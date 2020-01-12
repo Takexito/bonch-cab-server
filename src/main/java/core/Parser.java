@@ -23,6 +23,11 @@ public class Parser {
 
     //private int flag = 0;
     private int week;
+
+    public Table getTable() {
+        return table;
+    }
+
     //private ArrayList<ArrayList<Lesson>> tableList = new ArrayList<>();
     private Table table;
     private DayOfWeek currentDay;
@@ -67,19 +72,19 @@ public class Parser {
         }
     }
 
-    public Table parse(String html) {
+    public Boolean parse(String html) {
         Document doc = Jsoup.parse(html);
         Element tableE = doc.select("table.simple-little-table").first();
-        if (tableE == null) return table;
+        if (tableE == null) return false;
         Elements tr = tableE.select("tr");
-        if (tr == null) return table;
+        if (tr == null) return true;
         //createTable();
         setWeek(doc);
         tr.forEach(this::createLessons);
         System.out.println("Final table for " + week);
         //flag = 0;
        // printJson();
-        return table;
+        return true;
     }
 
 //    private void printJson() {
